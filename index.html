@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Demo - A10</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        input {
+            padding: 8px;
+            font-size: 16px;
+            margin-right: 8px;
+        }
+        button {
+            padding: 9px 16px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #cookie-display {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #28a745;
+        }
+        footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>JavaScript Cookie Demo (Assignment 10)</h2>
+        <p>Enter a value to store in a cookie, then reload the page to see it displayed.</p>
+        
+        <input type="text" id="cookieValue" placeholder="Enter cookie value...">
+        <button onclick="setCookieAndReload()">Set Cookie</button>
+
+        <div id="cookie-display"></div>
+    </div>
+
+    <footer>
+        &copy; 2026 Your Name - Due: November 17, 2026
+    </footer>
+
+    <script>
+        // Function to set a cookie (based on W3Schools guide)
+        function setCookie(cname, cvalue, exdays) {
+            const d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            let expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        // Function to get a cookie (based on W3Schools guide)
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        // Triggered when button is clicked
+        function setCookieAndReload() {
+            let val = document.getElementById("cookieValue").value;
+            if (val) {
+                setCookie("userCookie", val, 1);
+                alert("Cookie set! Reloading page...");
+                location.reload();
+            } else {
+                alert("Please enter a value.");
+            }
+        }
+
+        // Check and display the cookie on page load
+        window.onload = function() {
+            let savedCookie = getCookie("userCookie");
+            let displayDiv = document.getElementById("cookie-display");
+            if (savedCookie != "") {
+                displayDiv.innerText = "Cookie retrieved on reload: " + savedCookie;
+            } else {
+                displayDiv.innerText = "No cookie found. Set one above and reload!";
+            }
+        }
+    </script>
+
+</body>
+</html>
